@@ -217,19 +217,13 @@ function unlike($post_id){
     $current_user=$_SESSION['userdata']['id'];
     $query="DELETE FROM likes WHERE user_id=$current_user && post_id=$post_id";
     
-    $poster_id = getPosterId($post_id);
-    if($poster_id!=$current_user){
-        createNotification($current_user,$poster_id,"unliked your post !",$post_id);
-    }
-  
+    
     return mysqli_query($db,$query);
 }
 function unfollowUser($user_id){
     global $db;
     $current_user=$_SESSION['userdata']['id'];
     $query="DELETE FROM follow_list WHERE follower_id=$current_user && user_id=$user_id";
-
-    createNotification($current_user,$user_id,"Unfollowed you !");
     return mysqli_query($db,$query);
  
     
