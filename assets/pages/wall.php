@@ -134,7 +134,7 @@ if($post['post_text']){
                         <div class="flex-fill align-self-stretch overflow-auto" id="comment-section<?=$post['id']?>" style="height: 100px;">
 
                           <?php
-if(count($comments)<1){
+if(commentCount($post['id'])['row']<1){
     ?>
 <p class="p-3 text-center my-2 nce">no comments</p>
     <?php
@@ -188,7 +188,7 @@ foreach($comments as $comment){
 
             <div class="modal-body">
                 <?php
-                if(count($likes)<1){
+                if(likesCount($post['id'])<1){
                     ?>
 <p>Currently No Likes</p>
                     <?php

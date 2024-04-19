@@ -513,6 +513,22 @@ function deletePost($post_id){
     return mysqli_query($db,$query);
 }
 
+function commentCount($post_id)
+{
+    global $db;
+    $query = "SELECT get_comment_count($post_id) as row";
+    $run = mysqli_query($db,$query);
+    return mysqli_fetch_all($run,true);
+}
+
+function likesCount($post_id)
+{
+    global $db;
+    $query = "SELECT get_likes_count($post_id) as row";
+    $run = mysqli_query($db,$query);
+    return mysqli_fetch_all($run,true);
+}
+
 //for getting posts dynamically
 function filterPosts(){
     $list = getPost();

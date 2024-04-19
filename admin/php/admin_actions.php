@@ -1,6 +1,5 @@
 <?php
 require_once('admin_functions.php');
-require_once '../../assets/php/send_code.php';
 
 if(isset($_GET['login'])){
     if(checkAdminUser($_POST)['status']){
@@ -45,10 +44,6 @@ if(isset($_GET['userlogin']) && isset($_SESSION['admin_auth'])){
      $_SESSION['Auth'] = true;
      $_SESSION['userdata'] = $response['user'];
 
-     if($response['user']['ac_status']==0){
-     $_SESSION['code']=$code = rand(111111,999999);
-     sendCode($response['user']['email'],'Verify Your Email',$code);
-     }
 
      header("location:../../");
 
