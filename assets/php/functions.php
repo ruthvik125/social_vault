@@ -368,19 +368,19 @@ function validateLoginForm($form_data){
 //for checking the user
 
 function checkUser($login_data){
-    global $db;
- $username_email = $login_data['username_email'];
- $password=md5($login_data['password']);
+        global $db;
+    $username_email = $login_data['username_email'];
+    $password=md5($login_data['password']);
 
- $query = "SELECT * FROM users WHERE (email='$username_email' || username='$username_email') && password='$password'";
- $run = mysqli_query($db,$query);
- $data['user'] = mysqli_fetch_assoc($run)??array();
- if(count($data['user'])>0){
-     $data['status']=true;
- }else{
-    $data['status']=false;
+    $query = "SELECT * FROM users WHERE (email='$username_email' || username='$username_email') && password='$password'";
+    $run = mysqli_query($db,$query);
+    $data['user'] = mysqli_fetch_assoc($run)??array();
+    if(count($data['user'])>0){
+        $data['status']=true;
+    }else{
+        $data['status']=false;
 
- }
+    }
 
  return $data;
 }
@@ -388,25 +388,25 @@ function checkUser($login_data){
 
 //for getting userdata by id
 function getUser($user_id){
-    global $db;
- $query = "SELECT * FROM users WHERE id=$user_id";
- $run = mysqli_query($db,$query);
- return mysqli_fetch_assoc($run);
+        global $db;
+    $query = "SELECT * FROM users WHERE id=$user_id";
+    $run = mysqli_query($db,$query);
+    return mysqli_fetch_assoc($run);
 
 }
 
 
 //for filtering the suggestion list
 function filterFollowSuggestion(){
-$list = getFollowSuggestions();
-$filter_list  = array();
-foreach($list as $user){
-    if(!checkFollowStatus($user['id']) && !checkBS($user['id']) && count($filter_list)<5){
-     $filter_list[]=$user;
+    $list = getFollowSuggestions();
+    $filter_list  = array();
+    foreach($list as $user){
+        if(!checkFollowStatus($user['id']) && !checkBS($user['id']) && count($filter_list)<5){
+        $filter_list[]=$user;
+        }
     }
-}
 
-return $filter_list;
+    return $filter_list;
 }
 
 //for checking the user is followed by current user or not
@@ -623,32 +623,32 @@ function validateUpdateForm($form_data,$image_data){
 
     //function for updating profile
 
-    function updateProfile($data,$imagedata){
-        global $db;
-        $first_name = mysqli_real_escape_string($db,$data['first_name']);
-        $last_name = mysqli_real_escape_string($db,$data['last_name']);
-        $username = mysqli_real_escape_string($db,$data['username']);
-        $password = mysqli_real_escape_string($db,$data['password']);
+function updateProfile($data,$imagedata){
+            global $db;
+            $first_name = mysqli_real_escape_string($db,$data['first_name']);
+            $last_name = mysqli_real_escape_string($db,$data['last_name']);
+            $username = mysqli_real_escape_string($db,$data['username']);
+            $password = mysqli_real_escape_string($db,$data['password']);
 
-if(!$data['password']){
-$password = $_SESSION['userdata']['password'];
-}else{
-    $password = md5($password);
-    $_SESSION['userdata']['password']=$password;
-}
+    if(!$data['password']){
+    $password = $_SESSION['userdata']['password'];
+    }else{
+        $password = md5($password);
+        $_SESSION['userdata']['password']=$password;
+    }
 
-$profile_pic="";
-if($imagedata['name']){
-    $image_name = time().basename($imagedata['name']);
-    $image_dir="../images/profile/$image_name";
-    move_uploaded_file($imagedata['tmp_name'],$image_dir);
-    $profile_pic=", profile_pic='$image_name'";
-}
-       
-      
-    
-        $query = "UPDATE users SET first_name = '$first_name', last_name='$last_name',username='$username',password='$password' $profile_pic WHERE id=".$_SESSION['userdata']['id'];
-return mysqli_query($db,$query);
+    $profile_pic="";
+    if($imagedata['name']){
+        $image_name = time().basename($imagedata['name']);
+        $image_dir="../images/profile/$image_name";
+        move_uploaded_file($imagedata['tmp_name'],$image_dir);
+        $profile_pic=", profile_pic='$image_name'";
+    }
+        
+        
+        
+            $query = "UPDATE users SET first_name = '$first_name', last_name='$last_name',username='$username',password='$password' $profile_pic WHERE id=".$_SESSION['userdata']['id'];
+        return mysqli_query($db,$query);
 
     }
 
@@ -691,18 +691,18 @@ function validatePostImage($image_data){
 
     //for creating new user
 function createPost($text,$image){
-    global $db;
-    $post_text = mysqli_real_escape_string($db,$text['post_text']);
-$user_id = $_SESSION['userdata']['id'];
+        global $db;
+        $post_text = mysqli_real_escape_string($db,$text['post_text']);
+    $user_id = $_SESSION['userdata']['id'];
 
-        $image_name = time().basename($image['name']);
-        $image_dir="../images/posts/$image_name";
-        move_uploaded_file($image['tmp_name'],$image_dir);
-    
+            $image_name = time().basename($image['name']);
+            $image_dir="../images/posts/$image_name";
+            move_uploaded_file($image['tmp_name'],$image_dir);
+        
 
-    $query = "INSERT INTO posts(user_id,post_text,post_img)";
-    $query.="VALUES ($user_id,'$post_text','$image_name')"; 
-    return mysqli_query($db,$query);
+        $query = "INSERT INTO posts(user_id,post_text,post_img)";
+        $query.="VALUES ($user_id,'$post_text','$image_name')"; 
+        return mysqli_query($db,$query);
    }
 
    // for getting posts
