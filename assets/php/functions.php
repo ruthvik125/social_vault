@@ -232,16 +232,16 @@ function unfollowUser($user_id){
 
 //function for show errors
 function showError($field){
-if(isset($_SESSION['error'])){
-    $error =$_SESSION['error'];
-    if(isset($error['field']) && $field==$error['field']){
-       ?>
-<div class="alert alert-danger my-2" role="alert">
-  <?=$error['msg']?>
-</div>
-       <?php
+    if(isset($_SESSION['error'])){
+        $error =$_SESSION['error'];
+        if(isset($error['field']) && $field==$error['field']){
+        ?>
+    <div class="alert alert-danger my-2" role="alert">
+    <?=$error['msg']?>
+    </div>
+        <?php
+        }
     }
-}
 }
 
 
@@ -285,49 +285,49 @@ function isUsernameRegisteredByOther($username){
 
 //for validating the signup form
 function validateSignupForm($form_data){
-$response=array();
-$response['status']=true;
-  
-    if(!$form_data['password']){
-        $response['msg']="password is not given";
-        $response['status']=false;
-        $response['field']='password';
-    }
-   
-    if(!$form_data['username']){
-        $response['msg']="username is not given";
-        $response['status']=false;
-        $response['field']='username';
-    }
+    $response=array();
+    $response['status']=true;
     
-    if(!$form_data['email']){
-        $response['msg']="email is not given";
-        $response['status']=false;
-        $response['field']='email';
-    }
+        if(!$form_data['password']){
+            $response['msg']="password is not given";
+            $response['status']=false;
+            $response['field']='password';
+        }
     
-    if(!$form_data['last_name']){
-        $response['msg']="last name is not given";
-        $response['status']=false;
-        $response['field']='last_name';
-    }
-    if(!$form_data['first_name']){
-        $response['msg']="first name is not given";
-        $response['status']=false;
-        $response['field']='first_name';
-    }
-    if(isEmailRegistered($form_data['email'])){
-        $response['msg']="email id is already registered";
-        $response['status']=false;
-        $response['field']='email';
-    }
-    if(isUsernameRegistered($form_data['username'])){
-        $response['msg']="username is already registered";
-        $response['status']=false;
-        $response['field']='username';
-    }
+        if(!$form_data['username']){
+            $response['msg']="username is not given";
+            $response['status']=false;
+            $response['field']='username';
+        }
+        
+        if(!$form_data['email']){
+            $response['msg']="email is not given";
+            $response['status']=false;
+            $response['field']='email';
+        }
+        
+        if(!$form_data['last_name']){
+            $response['msg']="last name is not given";
+            $response['status']=false;
+            $response['field']='last_name';
+        }
+        if(!$form_data['first_name']){
+            $response['msg']="first name is not given";
+            $response['status']=false;
+            $response['field']='first_name';
+        }
+        if(isEmailRegistered($form_data['email'])){
+            $response['msg']="email id is already registered";
+            $response['status']=false;
+            $response['field']='email';
+        }
+        if(isUsernameRegistered($form_data['username'])){
+            $response['msg']="username is already registered";
+            $response['status']=false;
+            $response['field']='username';
+        }
 
-    return $response;
+        return $response;
 
 }
 
@@ -360,17 +360,13 @@ function validateLoginForm($form_data){
             $response['user']=checkUser($form_data)['user'];
         }
         
-      
-       
-       
-    
-    
         return $response;
     
     }
 
 
 //for checking the user
+
 function checkUser($login_data){
     global $db;
  $username_email = $login_data['username_email'];

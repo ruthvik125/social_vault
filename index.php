@@ -55,11 +55,9 @@ if(isset($_SESSION['Auth']) && $user['ac_status']==1 && !$pagecount){
    
     showPage('header',['page_title'=>'Pictogram - Login']);
     showPage('login');
-}elseif(isset($_GET['forgotpassword'])){
-    
-    showPage('header',['page_title'=>'Pictogram - Forgot Password']);
-    showPage('forgot_password');
-}else{
+}
+
+else{
     if(isset($_SESSION['Auth']) && $user['ac_status']==1){
         showPage('header',['page_title'=>'Home']);
         showPage('navbar');
