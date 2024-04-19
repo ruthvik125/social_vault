@@ -27,11 +27,12 @@ if(isset($_SESSION['Auth']) && $user['ac_status']==1 && !$pagecount){
 }elseif(isset($_SESSION['Auth']) && $user['ac_status']==2 && !$pagecount){
     showPage('header',['page_title'=>'Blocked']);
     showPage('blocked');
-}elseif(isset($_SESSION['Auth']) && isset($_GET['editprofile']) && $user['ac_status']==1){
+}elseif(isset($_SESSION['Auth']) && isset($_GET['editprofile']) && ($user['ac_status']==1 || $user['ac_status']==0)){
     showPage('header',['page_title'=>'Edit Profile']);
     showPage('navbar');
     showPage('edit_profile');
-}elseif(isset($_SESSION['Auth']) && isset($_GET['u']) && $user['ac_status']==1){
+}
+elseif(isset($_SESSION['Auth']) && isset($_GET['u']) && ($user['ac_status']==1 || $user['ac_status']==0)){
     $profile = getUserByUsername($_GET['u']);
     if(!$profile){
         showPage('header',['page_title'=>'User Not Found']);
@@ -55,9 +56,11 @@ if(isset($_SESSION['Auth']) && $user['ac_status']==1 && !$pagecount){
    
     showPage('header',['page_title'=>'Pictogram - Login']);
     showPage('login');
-}
-
-else{
+}elseif(isset($_GET['forgotpassword'])){
+    
+    showPage('header',['page_title'=>'Pictogram - Forgot Password']);
+    showPage('forgot_password');
+}else{
     if(isset($_SESSION['Auth']) && $user['ac_status']==1){
         showPage('header',['page_title'=>'Home']);
         showPage('navbar');
