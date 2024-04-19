@@ -472,21 +472,14 @@ function getPostById($user_id){
 
 }
 
-//for getting post
-function getPosterId($post_id){
-    global $db;
- $query = "SELECT user_id FROM posts WHERE id=$post_id";
- $run = mysqli_query($db,$query);
- return mysqli_fetch_assoc($run)['user_id'];
 
-}
 
 //for searching the users
 function searchUser($keyword){
-    global $db;
- $query = "SELECT * FROM users WHERE username LIKE '%".$keyword."%' || (first_name LIKE '%".$keyword."%' || last_name LIKE '%".$keyword."%') LIMIT 5";
- $run = mysqli_query($db,$query);
- return mysqli_fetch_all($run,true);
+        global $db;
+    $query = "SELECT * FROM users WHERE username LIKE '%".$keyword."%' || (first_name LIKE '%".$keyword."%' || last_name LIKE '%".$keyword."%') LIMIT 5";
+    $run = mysqli_query($db,$query);
+    return mysqli_fetch_all($run,true);
 
 }
 
@@ -499,25 +492,22 @@ function getUserByUsername($username){
  $query = "SELECT * FROM users WHERE username='$username'";
  $run = mysqli_query($db,$query);
  return mysqli_fetch_assoc($run);
-
-
-
 }
 
 //for getting posts
 function getPost(){
     global $db;
- $query = "SELECT users.id as uid,posts.id,posts.user_id,posts.post_img,posts.post_text,posts.created_at,users.first_name,users.last_name,users.username,users.profile_pic FROM posts JOIN users ON users.id=posts.user_id ORDER BY id DESC";
+    $query = "SELECT users.id as uid,posts.id,posts.user_id,posts.post_img,posts.post_text,posts.created_at,users.first_name,users.last_name,users.username,users.profile_pic FROM posts JOIN users ON users.id=posts.user_id ORDER BY id DESC";
 
- $run = mysqli_query($db,$query);
- return mysqli_fetch_all($run,true);
+    $run = mysqli_query($db,$query);
+    return mysqli_fetch_all($run,true);
 
 }
 
 
 function deletePost($post_id){
     global $db;
-$user_id=$_SESSION['userdata']['id'];
+    $user_id=$_SESSION['userdata']['id'];
     
     $query = "DELETE FROM posts WHERE id=$post_id";
     return mysqli_query($db,$query);
@@ -554,20 +544,8 @@ function createUser($data){
  return mysqli_query($db,$query);
 }
 
-//function for verify email
-function verifyEmail($email){
-    global $db;
-    $query="UPDATE users SET ac_status=1 WHERE email='$email'";
-    return mysqli_query($db,$query);
-}
 
-//function for verify email
-function resetPassword($email,$password){
-    global $db;
-    $password=md5($password);
-    $query="UPDATE users SET password='$password' WHERE email='$email'";
-    return mysqli_query($db,$query);
-}
+
 
 //for validating update form
 function validateUpdateForm($form_data,$image_data){
@@ -708,4 +686,35 @@ function createPost($text,$image){
    // for getting posts
 
    
+
+
+//function for verify email
+/* 
+function verifyEmail($email){
+    global $db;
+    $query="UPDATE users SET ac_status=1 WHERE email='$email'";
+    return mysqli_query($db,$query);
+}
+
+
+//for getting post
+function getPosterId($post_id){
+        global $db;
+    $query = "SELECT user_id FROM posts WHERE id=$post_id";
+    $run = mysqli_query($db,$query);
+    return mysqli_fetch_assoc($run)['user_id'];
+
+}
+
+
+
+//function for verify email
+function resetPassword($email,$password){
+    global $db;
+    $password=md5($password);
+    $query="UPDATE users SET password='$password' WHERE email='$email'";
+    return mysqli_query($db,$query);
+}
+*/
+
 ?>
