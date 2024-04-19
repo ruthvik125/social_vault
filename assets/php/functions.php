@@ -48,11 +48,11 @@ function sendMessage($user_id,$msg){
 }
 
 function newMsgCount(){
-global $db;
-$current_user_id = $_SESSION['userdata']['id'];
-$query="SELECT COUNT(*) as row FROM messages WHERE to_user_id=$current_user_id && read_status=0";
-$run=mysqli_query($db,$query);
-return mysqli_fetch_assoc($run)['row'];
+    global $db;
+    $current_user_id = $_SESSION['userdata']['id'];
+    $query="SELECT COUNT(*) as row FROM messages WHERE to_user_id=$current_user_id && read_status=0";
+    $run=mysqli_query($db,$query);
+    return mysqli_fetch_assoc($run)['row'];
 }
 
 function updateMessageReadStatus($user_id){
@@ -82,8 +82,6 @@ function followUser($user_id){
     $cu = getUser($_SESSION['userdata']['id']);
     $current_user=$_SESSION['userdata']['id'];
     $query="INSERT INTO follow_list(follower_id,user_id) VALUES($current_user,$user_id)";
-  
-    createNotification($cu['id'],$user_id,"started following you !");
     return mysqli_query($db,$query);
     
 }
@@ -131,13 +129,7 @@ function like($post_id){
     global $db;
     $current_user=$_SESSION['userdata']['id'];
     $query="INSERT INTO likes(post_id,user_id) VALUES($post_id,$current_user)";
-   $poster_id = getPosterId($post_id);
    
-   if($poster_id!=$current_user){
-    createNotification($current_user,$poster_id,"liked your post !",$post_id);
-   }
-   
-
     return mysqli_query($db,$query);
     
 }
@@ -152,12 +144,7 @@ function addComment($post_id,$comment){
 
     $current_user=$_SESSION['userdata']['id'];
     $query="INSERT INTO comments(user_id,post_id,comment) VALUES($current_user,$post_id,'$comment')";
-    $poster_id = getPosterId($post_id);
-
-    if($poster_id!=$current_user){
-        createNotification($current_user,$poster_id,"commented on your post",$post_id);
-    }
-   
+    
 
     return mysqli_query($db,$query);
     
@@ -541,14 +528,7 @@ function getPost(){
 function deletePost($post_id){
     global $db;
 $user_id=$_SESSION['userdata']['id'];
-    $dellike = "DELETE FROM likes WHERE post_id=$post_id && user_id=$user_id";
-    mysqli_query($db,$dellike);
-    $delcom = "DELETE FROM comments WHERE post_id=$post_id && user_id=$user_id";
-    mysqli_query($db,$delcom);
-    $not = "UPDATE notifications SET read_status=2 WHERE post_id=$post_id && to_user_id=$user_id";
-mysqli_query($db,$not);
-
-
+    
     $query = "DELETE FROM posts WHERE id=$post_id";
     return mysqli_query($db,$query);
 }
